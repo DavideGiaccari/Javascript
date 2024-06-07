@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="style.css"/>
+        <title>Il mio contatore</title>
+    </head>
+    <body>
+        
+        <div id="display" >0</div>
+        <div class="operation">
+            <div class="add">
+                <button class='btn' data-action="sum" data-value="1">+</button>
+                <button class='btn' data-action="sum" data-value="5">+5</button>
+                <button class='btn' data-action="sum" data-value="10">+10</button>
+                <button class='btn' data-action="sum" data-value="100">+100</button>
+                <button class='btn' data-action="sum" data-value="1000">+1000</button></div>
+            <div class="sub">
+                <button class='btn' data-action="minus" data-value="1">-</button>
+                <button class='btn' data-action="minus" data-value="5">-5</button>
+                <button class='btn' data-action="minus" data-value="10">-10</button>
+                <button class='btn' data-action="minus" data-value="100">-100</button>
+                <button class='btn' data-action="minus" data-value="1000">-1000</button></div>
+            <div>
+                <button id="esa">Esa</button>
+                <button id="cancel">Cancel</button>
+                <button id="bin">Bin</button></div> </div>
+<script>
+let counter = 0 ;
+const display= document.getElementById('display');
+const buttonsDisabled= document.querySelectorAll('.add button', '.sub button');
+function load(value, action) {
+if(action === 'sum') {
+    counter+= value;
+    } else if( action==='minus') {
+        counter-= value;}
+        display.textContent= counter;
+}  
+document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', function() {
+        const value = parseInt(this.getAttribute('data-value'));
+        const action = this.getAttribute('data-action');
+        load(value, action);
+    });
+});
+document.getElementById('esa').addEventListener('click', Esa);
+document.getElementById('bin').addEventListener('click', Bin);
+
+function Esa () {
+    display.textContent= counter.toString(16)
+    Disable();
+}
+function Bin () {
+    display.textContent= counter.toString(2)
+    Disable();
+}
+function cancel () {
+    counter = 0
+    display.textContent = counter;
+    enableAllButtons();
+}
+document.getElementById('cancel').addEventListener('click', cancel);
+function Disable() {
+    let buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+         if (button.id !== 'cancel') {
+            button.disabled = true;
+        }
+    });
+}
+function enableAllButtons() {
+    let buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.disabled = false;
+    });
+}
+   
+                
+
+           
+            
+            
+            
+
+
+         
+
+
+
+         
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>
