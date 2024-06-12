@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="style.css"/>
+    <title>Il mio contatore</title>
+</head>
+<body>
+    <script>
+        let counter = 0;
+        const display = document.createElement('div');
+        display.id = 'display';
+        display.textContent = '0';
+        document.body.appendChild(display);
+        const operationDiv = document.createElement('div');
+        operationDiv.className = 'operation';
+        document.body.appendChild(operationDiv);
+
+        function createButton(className, text, action, value, id = '') {
+            const button = document.createElement('button');
+            button.className = 'btn ' + className;
+            button.textContent = text;
+            button.setAttribute('data-action', action);
+            button.setAttribute('data-value', value);
+            if (id) button.id = id;
+            return button;
+        }
+
+        const addDiv = document.createElement('div');
+        addDiv.className = 'add';
+        addDiv.appendChild(createButton('add', '+1', 'sum', '1'));
+        addDiv.appendChild(createButton('add', '+5', 'sum', '5'));
+        addDiv.appendChild(createButton('add', '+10', 'sum', '10'));
+        addDiv.appendChild(createButton('add', '+100', 'sum', '100'));
+        addDiv.appendChild(createButton('add', '+1000', 'sum', '1000'));
+        operationDiv.appendChild(addDiv);
+
+        const subDiv = document.createElement('div');
+        subDiv.className = 'sub';
+        subDiv.appendChild(createButton('sub', '-1', 'minus', '1'));
+        subDiv.appendChild(createButton('sub', '-5', 'minus', '5'));
+        subDiv.appendChild(createButton('sub', '-10', 'minus', '10'));
+        subDiv.appendChild(createButton('sub', '-100', 'minus', '100'));
+        subDiv.appendChild(createButton('sub', '-1000', 'minus', '1000'));
+        operationDiv.appendChild(subDiv);
+
+        const otherDiv = document.createElement('div');
+        otherDiv.appendChild(createButton('other', 'Esa', 'esa', '', 'esa'));
+        otherDiv.appendChild(createButton('other', 'Cancel', 'cancel', '', 'cancel'));
+        otherDiv.appendChild(createButton('other', 'Bin', 'bin', '', 'bin'));
+        operationDiv.appendChild(otherDiv);
+
+        function load(value, action) {
+            if (action === 'sum') {
+                counter += value;
+            } else if (action === 'minus') {
+                counter -= value;
+            }
+            display.textContent = counter;
+        }
+
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                const action = this.getAttribute('data-action');
+                if (action === 'esa') {
+                    display.textContent = counter.toString(16);
+                    disableButtons();
+                } else if (action === 'bin') {
+                    display.textContent = counter.toString(2);
+                    disableButtons();
+                } else if (action === 'cancel') {
+                    cancel();
+                } else {
+                    load(value, action);
+                }
+            });
+        });
+
+        function cancel() {
+            counter = 0;
+            display.textContent = counter;
+            enableAllButtons();
+        }
+
+        function disableButtons() {
+            document.querySelectorAll('.btn').forEach(button => {
+                if (button.id !== 'cancel') {
+                    button.disabled = true;
+                }
+            });
+        }
+
+        function enableAllButtons() {
+            document.querySelectorAll('.btn').forEach(button => {
+                button.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
